@@ -3,7 +3,8 @@ import AuthPresenter from "./AuthPresenter";
 import {
   LOG_IN,
   CREATE_ACCOUNT,
-  CONFIRM_SECRET
+  CONFIRM_SECRET,
+  LOCAL_LOG_IN
 } from "./AuthQueries";
 import { useMutation } from "react-apollo-hooks";
 import useInput from "../../Hooks/useInput";
@@ -16,8 +17,9 @@ export default () => {
   const username = useInput("");
   const firstName = useInput("");
   const lastName = useInput("");
-  const email = useInput("");
+  const email = useInput("ruddlf4933@trizcorp.com");
   const secret = useInput("");
+
   const secretMutation = useMutation(LOG_IN, {
     variables: { email: email.value }
   });
@@ -32,11 +34,13 @@ export default () => {
   });
 
   const confirmSecretMutation = useMutation(CONFIRM_SECRET, {
-      variables : {
-          email: email.value,
-          secret: secret.value
-      }
-  })
+    variables: {
+      email: email.value,
+      secret: secret.value
+    }
+  });
+
+  const localLogInMutation = useMutation(LOCAL_LOG_IN);
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -46,12 +50,13 @@ export default () => {
           const {
             data: { requestSecret }
           } = await secretMutation();
+          console.log(requestSecret);
           if (requestSecret) {
-            toast("메일이 전송되었습니다.", {
+            toast.success("메일함에서 키값을 확인해주세요.", {
               position: toast.POSITION.TOP_RIGHT,
               className: "foo-bar"
             });
-            setTimeout(() => setAction("confirm"), 1000);
+            setTimeout(() => setAction("confirm"), 100);
           } else {
             toast.error("등록된 계정이 없습니다. 계정을 생성해주세요.");
             setTimeout(() => setAction("signUp"), 3000);
@@ -73,7 +78,6 @@ export default () => {
           const {
             data: { createAccount }
           } = await createAccountMutation();
-          console.log(createAccount);
           if (createAccount) {
             toast.success("가입되었습니다. 로그인해주세요.", {
               position: toast.POSITION.TOP_RIGHT,
@@ -84,7 +88,6 @@ export default () => {
             toast.error("가입에 실패하였습니다. 다시 시도해주세요.");
           }
         } catch (e) {
-          console.log(e.message);
           if (e.message === "GraphQL error: This email is already taken.")
             toast.error("이메일 주소가 등록되어 있습니다.");
           else if (
@@ -97,6 +100,23 @@ export default () => {
         toast.error("모든 필드를 입력해주세요.");
       }
     } else if (action === "confirm") {
+      if (secret.value !== "") {
+        try {
+          const {
+            data: { confirmSecret: token }
+          } = await confirmSecretMutation();
+          
+          if (token !== "" && token !== undefined) {
+            localLogInMutation({ 
+                variables: { token } 
+            });
+          } else {
+              throw Error();
+          }
+        } catch {
+          toast.error("키 인증에 실패하였습니다.");
+        }
+      }
     }
   };
 

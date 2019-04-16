@@ -11,8 +11,9 @@ const Container = styled.input`
   border-radius: ${props => props.theme.borderRadius};
 `;
 
-const Input = ({ placeholder, required = true, value, onChange, type = 'text' }) => (
+const Input = ({ className='custom-input',placeholder, required = true, value, onChange, type = 'text' }) => (
   <Container
+    className={className}
     placeholder={placeholder}
     required={required}
     value={value}

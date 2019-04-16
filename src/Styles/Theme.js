@@ -9,10 +9,13 @@ export default {
     redColor: "#ED4956",
     darkGreyColor: "#999",
     darkBlueColor: "#003569",
+    maxWidth : "935px",
     boxBorder: "1px solid #e6e6e6",
     borderRadius: "4px",
     whiteBox: `border:${BOX_BORDER};
                border-radius:${BORDER_RADIUS};
                 background-color:white;
-    `
+    `,
+    paddingAlign:` padding-left: 16px;
+                  padding-right: 16px;`
 };
