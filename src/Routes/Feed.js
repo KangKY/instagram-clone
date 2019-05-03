@@ -24,13 +24,18 @@ const FEED = gql`
       }
       likeCount
       isLiked
-      comments {
+      commentCount
+      recentcomments {
         id
         text
+        parent {
+          id
+        }
         user {
           id
           username
         }
+        isLiked
       }
       createdAt
     }
@@ -62,8 +67,10 @@ export default () => {
             caption={post.caption}
             likeCount={post.likeCount}
             isLiked={post.isLiked}
-            comments={post.comments}
+            comments={post.recentcomments}
+            commentCount={post.commentCount}
             createdAt={post.createdAt}
+            detail={false}
           />
         ))}
     </Wrapper>

@@ -23,10 +23,13 @@ const Container = styled.div`
   background-image: url(${props => props.url});
   background-size: cover;
   border-radius: 50%;
+  flex-basis: ${props=>props.size};
+  flex-shrink: 0;
+  margin-right:10px;
 `;
 
-function Avatar({ size = "sm", url }) {
-  return <Container size={size} url={url} />;
+function Avatar({ size = "sm", url, className }) {
+  return <Container className={className} size={size} url={url} />;
 }
 
 Avatar.propTypes = {

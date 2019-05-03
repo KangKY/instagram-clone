@@ -6,6 +6,9 @@ import PropTypes from "prop-types";
 import Explore from "../Routes/Explore";
 import Search from "../Routes/Search";
 import Profile from "../Routes/Profile";
+import Location from "../Routes/Location";
+import PostDetail from "../Routes/PostDetail";
+import EditProfile from "../Routes/EditProfile";
 
 
 const LoggedInRoutes = () => (
@@ -13,6 +16,9 @@ const LoggedInRoutes = () => (
         <Route exact path="/" component={Feed} />
         <Route path="/explore" component={Explore} />
         <Route path="/search" component={Search} />
+        <Route path="/location" component={Location} />
+        <Route path="/p/:post" component={PostDetail} />
+        <Route path="/account/edit" component={EditProfile} />
         <Route path="/:username" component={Profile} />
         <Redirect from="*" to="/" />
     </Switch>

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import useInput from "../../Hooks/useInput";
 import PostPresenter from "./PostPresenter";
+import PostDetailPresenter from "./PostDetailPresenter";
 import { useMutation } from "react-apollo-hooks";
-import { TOGGLE_LIKE, ADD_COMMENT } from "./PostQueries";
+import { TOGGLE_LIKE, ADD_COMMENT, ADD_REPLY } from "./PostQueries";
 import { toast } from "react-toastify";
 
 const PostContainer = ({
@@ -13,14 +14,21 @@ const PostContainer = ({
   likeCount,
   isLiked,
   comments,
+  commentCount,
   createdAt,
   caption,
-  location
+  location,
+  detail
 }) => {
   const [isLikedS, setIsLiked] = useState(isLiked);
   const [likeCountS, setLikeCount] = useState(likeCount);
   const [currentItem, setCurrentItem] = useState(0);
   const [selfComments, setSelfComments] = useState([]);
+  const [recommentId, setRecommentId] = useState(0);
+
+  //const [test, setTest] = useState(0);
+
+  const textAreaRef = useRef(null);
   const comment = useInput("");
 
   const toggleLikeMutation = useMutation(TOGGLE_LIKE, {
@@ -36,18 +44,33 @@ const PostContainer = ({
     }
   });
 
+  const addReplyMutation = useMutation(ADD_REPLY, {
+    variables: {
+      postId: id,
+      text: comment.value,
+      commentId : recommentId
+    }
+  });
+
+  //const [isMounted, setIsMounted] = useState(false);
+
   const slide = () => {
     const totalFiles = files.length;
     if (currentItem === totalFiles - 1) {
+      //setTimeout(() => isMounted.value?setCurrentItem(0):null, 3000);
       setTimeout(() => setCurrentItem(0), 3000);
     } else {
+      //setTimeout(() => isMounted.value?setCurrentItem(currentItem + 1):null, 3000);
       setTimeout(() => setCurrentItem(currentItem + 1), 3000);
     }
   };
 
   useEffect(()=> {
+    //setIsMounted(true);
+    // console.log(currentItem);
+    //console.log(isMounted);
     slide();
-  }, [currentItem]);
+  }, []);
 
   const toggleLike = async () => {
     if (isLikedS === true) {
@@ -75,37 +98,99 @@ const PostContainer = ({
     if (which === 13) {
       event.preventDefault();
       try {
-        const {
-          data: { addComment }
-        } = await addCommentMutation();
-        console.log(addComment);
-        setSelfComments([...selfComments, addComment]);
-        comment.setValue("");
+        var myRe = /@\w+/g;
+        var myArray = myRe.exec(comment.value);
+        console.log(myArray);
+        if(myArray === null) {
+          comment.setValue("");
+          const {
+            data: { addComment }
+          } = await addCommentMutation();
+
+          console.log(addComment);
+          setSelfComments([...selfComments, addComment]);
+        } else {
+          const {
+            data: { addReply }
+          } = await addReplyMutation();
+          
+          console.log(addReply);
+          comments.forEach(comment => {
+            if(comment.id === recommentId) {
+              comment.recomments.push(addReply);
+              comment.recommentCount += 1;
+              console.log(comment);
+            } 
+          });
+          comment.setValue("");
+          // const parentComment = comments.find(comment => comment.id === recommentId)
+          // if(parentComment) {
+          //   console.log(parentComment);
+          //   parentComment.recomments.push(addReply);
+          // }
+            
+          //setSelfComments([...selfComments, addComment]);
+        }
+        
       } catch (e){
         console.log(e);
         toast.error("Cant send comment");
       }
     }
   };
-  
 
-  return (
-    <PostPresenter
-      user={user}
-      files={files}
-      likeCount={likeCountS}
-      isLiked={isLikedS}
-      comments={comments}
-      createdAt={createdAt}
-      caption={caption}
-      location={location}
-      newComment={comment}
-      currentItem={currentItem}
-      toggleLike={toggleLike}
-      onKeyPress={onKeyPress}
-      selfComments={selfComments}
-    />
-  );
+  
+  
+  if( detail ) {
+    const onReplyClick = (username, id) => {
+      comment.setValue(`@${username} `);
+      textAreaRef.current.focus();
+      setRecommentId(id);
+    }
+
+    return (
+      <PostDetailPresenter
+        id={id}
+        user={user}
+        files={files}
+        likeCount={likeCountS}
+        isLiked={isLikedS}
+        comments={comments}
+        createdAt={createdAt}
+        caption={caption}
+        location={location}
+        newComment={comment}
+        currentItem={currentItem}
+        toggleLike={toggleLike}
+        onKeyPress={onKeyPress}
+        selfComments={selfComments}
+        onReplyClick={onReplyClick}
+        textAreaRef={textAreaRef}
+      />
+    );
+  } else {
+    return (
+      <PostPresenter
+        id={id}
+        user={user}
+        files={files}
+        likeCount={likeCountS}
+        isLiked={isLikedS}
+        comments={comments}
+        commentCount={commentCount}
+        createdAt={createdAt}
+        caption={caption}
+        location={location}
+        newComment={comment}
+        currentItem={currentItem}
+        toggleLike={toggleLike}
+        onKeyPress={onKeyPress}
+        selfComments={selfComments}
+      />
+    );
+  }
+
+  
 };
 
 PostContainer.propTypes = {
@@ -118,8 +203,7 @@ PostContainer.propTypes = {
   files: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired
+      url: PropTypes.string.isRequired
     })
   ).isRequired,
   likeCount: PropTypes.number.isRequired,

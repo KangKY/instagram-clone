@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import useInput from "../Hooks/useInput";
 import Input from "../Components/Input";
-import { Pet, Compass, HeartEmpty, User } from "./Icons";
+import { Pet, Compass, HeartEmpty, User, Map } from "./Icons";
 import { ME } from "../SharedQueries";
 import { useQuery } from "react-apollo-hooks";
 
@@ -13,19 +13,34 @@ const Header = styled.div`
   left: 0;
   background-color: #fff;
   border-bottom: ${props => props.theme.boxBorder};
-  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 25px 0px;
+  padding: 25px 10px;
+  position: fixed;
   z-index: 2;
+  @media (max-width: 768px) {
+    padding: 15px 10px;
+  }
+
+  @media  (max-width: 450px) {
+    padding: 10px 10px;
+  }
 `;
+
+const MediaWrap = styled.span`
+  display:flex;
+  @media (max-width: 650px) {
+    display: none;
+  }
+`
 
 const HeaderWrapper = styled.div`
   width: 100%;
   max-width: ${props => props.theme.maxWidth};
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 const Divider = styled.div`
@@ -33,6 +48,9 @@ const Divider = styled.div`
   background-color: ${props => props.theme.blackColor};
   height: 28px;
   margin: 0 16px;
+  @media (max-width: 650px) {
+    display: none;
+  }
 `;
 
 const HeaderColumn = styled.div`
@@ -50,11 +68,23 @@ const HeaderColumn = styled.div`
     margin-left: auto;
     text-align: right;
   }
+
+  @media  (max-width: 450px) {
+    width: 50%;
+    &:nth-child(2) {
+      display:none;
+    }
+  }
 `;
 
 const HeaderLink = styled(Link)`
   &:not(:last-child) {
     margin-right: 30px;
+  }
+  @media (max-width: 650px) {
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
   }
 `;
 
@@ -65,7 +95,7 @@ const SearchInput = styled(Input)`
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  width: 70%;
+  width: 75%;
   &::placeholder {
     opacity: 0.8;
     font-weight: 200;
@@ -80,6 +110,8 @@ const Title = styled.div`
   vertical-align: center;
 `;
 
+// withRouter : Router의 기능을 갖지 않는 컴포넌트에게
+// Router 기능을 제공
 export default withRouter(({ history }) => {
   const search = useInput("");
   const { data } = useQuery(ME);
@@ -95,8 +127,10 @@ export default withRouter(({ history }) => {
       <HeaderWrapper>
         <HeaderColumn>
           <Link to="/">
-            <Pet />
-            <Divider />
+            <MediaWrap>
+              <Pet />
+              <Divider />
+            </MediaWrap>
             <Title>2nd Family</Title>
           </Link>
         </HeaderColumn>
@@ -113,15 +147,18 @@ export default withRouter(({ history }) => {
           <HeaderLink to="/explore">
             <Compass />
           </HeaderLink>
-          <HeaderLink to="/notifications">
-            <HeartEmpty />
+          <HeaderLink to="/location">
+            <Map />
           </HeaderLink>
+          {/* <HeaderLink to="/#">
+            <HeartEmpty />
+          </HeaderLink> */}
           {!data.me ? (
             <HeaderLink to="/#">
               <User />
             </HeaderLink>
           ) : (
-            <HeaderLink to={data.me.username}>
+            <HeaderLink to={`/${data.me.username}`}>
               <User />
             </HeaderLink>
           )}

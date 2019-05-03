@@ -3,10 +3,11 @@ import styled from "styled-components";
 import Proptypes from "prop-types";
 
 const Container = styled.input`
-  background-color: ${props => props.theme.bgColor};
+  
   width: 100%;
   height: 35px;
   padding: 0px 15px;
+  background-color: ${props => props.theme.bgColor};
   border: ${props => props.theme.boxBorder};
   border-radius: ${props => props.theme.borderRadius};
 `;

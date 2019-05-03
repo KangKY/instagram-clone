@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import BoldText from "../BoldText";
 import Avatar from "../Avatar";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Comment from "../Comment";
 import moment from 'moment';
 import { HeartFull, HeartEmpty, CommentEmpty } from "../Icons";
@@ -11,12 +11,16 @@ import TextareaAutosize from "react-autosize-textarea";
 const Post = styled.div`
   ${props => props.theme.whiteBox};
   width: 100%;
-  max-width: 614px;
+ 
   /* margin-right: 28px; */
   margin-bottom: 25px;
-  user-select: none;
+  
   a {
     color: inherit;
+  }
+  display:flex;
+  @media (max-width:768px) {
+    flex-direction:column;
   }
 `;
 
@@ -26,6 +30,12 @@ const PostHeader = styled.header`
   align-items: center;
   border-bottom: 1px solid #efefef;
 `;
+
+const PostWrap = styled.div`
+   width: 100%;
+`;
+
+
 
 const UserColumn = styled.div`
 `;
@@ -38,11 +48,12 @@ const Location = styled.span`
 
 const Files = styled.div`
   position: relative;
-  padding-bottom: 100%;
+  /* padding-bottom: 100%; */
   display: flex;
   flex-direction: column;
   align-items: stretch;
   flex-shrink: 0;
+  flex-basis:60%;
 `;
 
 const File = styled.img`
@@ -82,13 +93,12 @@ const LikeSection = styled.div`
 `;
 
 const Timestamp = styled.span`
-  ${props => props.theme.paddingAlign};
   font-weight: 400;
   text-transform: uppercase;
   opacity: 0.5;
   font-size: 12px;
   display: block;
-  margin: 10px 0px;
+  margin: 5px 0px;
 `;
 
 const TextArea = styled(TextareaAutosize)`
@@ -106,11 +116,12 @@ const TextArea = styled(TextareaAutosize)`
   padding: 20px 16px;
 `;
 
-const Comments = styled.ul`
+const CommentUl = styled.ul`
   ${props => props.theme.paddingAlign};
   margin-top: 10px;
+  max-height: 360px;
+  overflow-y: scroll;
 `;
-
 const Caption = styled.div`
   ${props => props.theme.paddingAlign};
   margin: 10px 0px;
@@ -118,19 +129,13 @@ const Caption = styled.div`
   border-bottom: ${props => props.theme.boxBorder};
 `;
 
-const MoreComment = styled.div`
-
-`;
-
 
 export default ({
-  id,
   user: { avatar, username },
   location,
   caption,
   files,
   comments,
-  commentCount,
   likeCount,
   isLiked,
   createdAt,
@@ -138,22 +143,12 @@ export default ({
   currentItem,
   toggleLike,
   onKeyPress,
-  selfComments
+  selfComments,
+  onReplyClick,
+  textAreaRef
 }) => {
-  console.log(selfComments);
   return (
     <Post>
-      <PostHeader>
-        <Link to={`/${username}`}>
-          <Avatar size={"sm"} url={avatar} />
-        </Link>
-        <UserColumn>
-          <Link to={`/${username}`}>
-            <BoldText text={username} />
-          </Link>
-          <Location>{location}</Location>
-        </UserColumn>
-      </PostHeader>
       <Files>
         {files &&
           files.map((file, index) => (
@@ -165,43 +160,62 @@ export default ({
             />
           ))}
       </Files>
-      <Meta>
-        <Buttons>
-          <Button onClick={toggleLike}>
-            {isLiked ? <HeartFull /> : <HeartEmpty />}
-          </Button>
-          <Button>
-            <CommentEmpty />{" "}
-          </Button>
-        </Buttons>
-        <LikeSection>
-          <BoldText text={`${likeCount} likes`} />
-        </LikeSection>
-        <Caption>
-          <BoldText text={username} /> {caption}
-        </Caption>
-        <Comments>
-          <Link to={`/p/${id}`}>
-            <MoreComment>댓글 {commentCount}개 모두 보기</MoreComment>
+      <PostWrap>
+        <PostHeader>
+          <Link to={`/${username}`}>
+            <Avatar size={"sm"} url={avatar} />
           </Link>
-          {comments &&
-            comments.map(comment => 
-              <Comment key={comment.id} detail={false} comment={comment} />
-            )
-          }
-          {selfComments &&
-            selfComments.map(comment => (
-              <Comment key={comment.id} detail={false} comment={comment} />
-            ))}
-        </Comments>
-        <Timestamp>{moment(createdAt).fromNow()}</Timestamp>
-        <TextArea
-          onKeyPress={onKeyPress}
-          placeholder={"댓글 달기..."}
-          value={newComment.value}
-          onChange={newComment.onChange}
-        />
-      </Meta>
+          <UserColumn>
+            <Link to={`/${username}`}>
+              <BoldText text={username} />
+            </Link>
+            <Location>{location}</Location>
+            <Timestamp>{moment(createdAt).fromNow()}</Timestamp>
+          </UserColumn>
+        </PostHeader>
+        <Meta>
+          <Buttons>
+            <Button onClick={toggleLike}>
+              {isLiked ? <HeartFull /> : <HeartEmpty />}
+            </Button>
+            <Button>
+              <CommentEmpty />
+            </Button>
+          </Buttons>
+          <LikeSection>
+            <BoldText text={`${likeCount} likes`} />
+          </LikeSection>
+          <Caption>
+            <BoldText text={username} /> {caption}
+          </Caption>
+          <CommentUl>
+            {comments &&
+              comments.map(comment => 
+                <Comment key={comment.id} detail={true} comment={comment} onReplyClick={() => {
+                  onReplyClick(comment.user.username, comment.id);
+                }}/>
+
+
+              )
+            }
+            {selfComments &&
+              selfComments.map(comment => (
+                <Comment key={comment.id} detail={true} comment={comment} onReplyClick={() => {
+                  onReplyClick(comment.user.username, comment.id);
+                }}/>
+              ))}
+          </CommentUl>
+
+          <TextArea
+            onKeyPress={onKeyPress}
+            placeholder={"댓글 달기..."}
+            value={newComment.value}
+            onChange={newComment.onChange}
+            ref={textAreaRef}
+          />
+        </Meta>
+      </PostWrap>
+      
     </Post>
   );
 };

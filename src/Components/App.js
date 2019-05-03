@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Theme from "../Styles/Theme";
 import GlobalStyles from "../Styles/GlobalStyles";
-import Routes from "./Router";
+import Routes from "./Routes";
 import Footer from "./Footer";
 import Header from "./Header";
 
@@ -18,9 +18,24 @@ const QUERY = gql`
 `;
 
 const Wrapper = styled.div`
-  max-width: 935px;
+
   width: 100%;
   margin: 0 auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ContentWrapper = styled.div`
+  max-width: 935px;
+  width: 100%;
+  margin: 0 auto 30px;
+  padding-top:5rem;
+  @media (min-width: 736px) {
+    box-sizing: content-box;
+    padding: 120px 20px 0;
+    width: calc(100% - 40px);
+  }
 `;
 
 export default () => {
@@ -33,11 +48,11 @@ export default () => {
       <>
         <GlobalStyles />
         <Router>
-         
           <Wrapper>
             {isLoggedIn && <Header />}
-          
-            <Routes isLoggedIn={isLoggedIn} />
+            <ContentWrapper>
+              <Routes isLoggedIn={isLoggedIn} />
+            </ContentWrapper>
             <Footer />
             <ToastContainer position={toast.POSITION.TOP_RIGHT} />
           </Wrapper>

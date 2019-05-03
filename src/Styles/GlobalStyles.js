@@ -10,10 +10,10 @@ export default createGlobalStyle`
         background-color:${props=>props.theme.bgColor};
         color:${props=>props.theme.blackColor};
         font-size:14px;
-        padding-top: 140px;
     }
     a {
         color:${props=>props.theme.blueColor};
         text-decoration:none;
     }
+
 `
