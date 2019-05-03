@@ -93,7 +93,6 @@ export default ({
       </CommentList>
     );
   } else {
-    //console.log(comment);
     return (
       <>
         <CommentList key={comment.id}>
