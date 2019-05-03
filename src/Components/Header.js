@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import useInput from "../Hooks/useInput";
 import Input from "../Components/Input";
-import { Pet, Compass, HeartEmpty, User, Map } from "./Icons";
+import { Pet, Compass, User, Map } from "./Icons";
 import { ME } from "../SharedQueries";
 import { useQuery } from "react-apollo-hooks";
 
@@ -120,6 +120,7 @@ export default withRouter(({ history }) => {
   const onSearchSubmit = e => {
     e.preventDefault();
     history.push(`/search?term=${search.value}`);
+    search.setValue("");
   };
 
   return (

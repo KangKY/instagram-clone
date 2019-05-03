@@ -15,8 +15,10 @@
     "react-kakao-map": "^0.0.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
+    "react-slick": "^0.24.0",
     "react-toastify": "^5.0.0",
     "rl-react-helmet": "^5.2.0",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^4.2.0",
     "styled-reset": "^2.0.6"
   },

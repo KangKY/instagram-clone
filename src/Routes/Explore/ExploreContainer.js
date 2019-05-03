@@ -12,8 +12,6 @@ export default () => {
       category:category.value
     }
   });
-
-  console.log(data);
   return (
     <ExplorePresenter loading={loading} data={data} />
   )

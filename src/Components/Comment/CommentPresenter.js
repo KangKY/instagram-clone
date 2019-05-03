@@ -15,7 +15,7 @@ const CommentList = styled.li`
   padding-top: 10px;
   display: flex;
   span {
-    margin-right: 5px;
+    padding-right: 7px;
     line-height: 1.3;
   }
 `;

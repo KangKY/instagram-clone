@@ -7,6 +7,7 @@ import Comment from "../Comment";
 import moment from 'moment';
 import { HeartFull, HeartEmpty, CommentEmpty } from "../Icons";
 import TextareaAutosize from "react-autosize-textarea";
+import Slider from "react-slick";
 
 const Post = styled.div`
   ${props => props.theme.whiteBox};
@@ -64,7 +65,7 @@ const File = styled.img`
   width: 100%;
   object-fit: cover;
   user-select: none;
-  opacity: ${props => (props.showing ? 1 : 0)};
+  opacity: 1;
   transition: opacity 0.5s linear;
   @media (max-width:768px) {
     display:none;
@@ -77,7 +78,7 @@ const MobileFile = styled.img`
   width: 100%;
   object-fit: cover;
   user-select: none;
-  opacity: ${props => (props.showing ? 1 : 0)};
+  opacity: 1;
   transition: opacity 0.5s linear;
   @media (min-width:768px) {
     display:none;
@@ -156,7 +157,6 @@ export default ({
   isLiked,
   createdAt,
   newComment,
-  currentItem,
   toggleLike,
   onKeyPress,
   selfComments,
@@ -164,6 +164,14 @@ export default ({
   onCommentClick,
   textAreaRef
 }) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   return (
     <Post>
       <Files>
@@ -173,7 +181,6 @@ export default ({
               key={file.id}
               id={file.id}
               src={file.url}
-              showing={index === currentItem}
             />
           ))}
       </Files>
@@ -197,7 +204,6 @@ export default ({
                 key={file.id}
                 id={file.id}
                 src={file.url}
-                showing={index === currentItem}
               />
             ))}
         </Files>

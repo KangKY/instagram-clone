@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import useInput from "../../Hooks/useInput";
 import PostPresenter from "./PostPresenter";
@@ -22,7 +22,6 @@ const PostContainer = ({
 }) => {
   const [isLikedS, setIsLiked] = useState(isLiked);
   const [likeCountS, setLikeCount] = useState(likeCount);
-  const [currentItem, setCurrentItem] = useState(0);
   const [selfComments, setSelfComments] = useState([]);
   const [recommentId, setRecommentId] = useState(0);
 
@@ -51,26 +50,6 @@ const PostContainer = ({
       commentId : recommentId
     }
   });
-
-  //const [isMounted, setIsMounted] = useState(false);
-
-  const slide = () => {
-    const totalFiles = files.length;
-    if (currentItem === totalFiles - 1) {
-      //setTimeout(() => isMounted.value?setCurrentItem(0):null, 3000);
-      setTimeout(() => setCurrentItem(0), 3000);
-    } else {
-      //setTimeout(() => isMounted.value?setCurrentItem(currentItem + 1):null, 3000);
-      setTimeout(() => setCurrentItem(currentItem + 1), 3000);
-    }
-  };
-
-  useEffect(()=> {
-    //setIsMounted(true);
-    // console.log(currentItem);
-    //console.log(isMounted);
-    slide();
-  }, []);
 
   const toggleLike = async () => {
     if (isLikedS === true) {
@@ -164,7 +143,6 @@ const PostContainer = ({
         caption={caption}
         location={location}
         newComment={comment}
-        currentItem={currentItem}
         toggleLike={toggleLike}
         onKeyPress={onKeyPress}
         selfComments={selfComments}
@@ -187,7 +165,6 @@ const PostContainer = ({
         caption={caption}
         location={location}
         newComment={comment}
-        currentItem={currentItem}
         toggleLike={toggleLike}
         onKeyPress={onKeyPress}
         selfComments={selfComments}

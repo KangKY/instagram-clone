@@ -7,6 +7,9 @@ import Comment from "../Comment";
 import moment from 'moment';
 import { HeartFull, HeartEmpty, CommentEmpty } from "../Icons";
 import TextareaAutosize from "react-autosize-textarea";
+import Slider from "react-slick";
+import "./carousel.css";
+
 
 const Post = styled.div`
   ${props => props.theme.whiteBox};
@@ -36,24 +39,26 @@ const Location = styled.span`
   font-size: 12px;
 `;
 
-const Files = styled.div`
-  position: relative;
-  padding-bottom: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  flex-shrink: 0;
-`;
+// const Files = styled.div`
+//   position: relative;
+//   padding-bottom: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: stretch;
+//   flex-shrink: 0;
+// `;
+
+
 
 const File = styled.img`
   max-width: 100%;
-  position: absolute;
-  top: 0;
   height: 100%;
   width: 100%;
   object-fit: cover;
   user-select: none;
-  opacity: ${props => (props.showing ? 1 : 0)};
+  margin: auto;
+  border: 5px solid #fff;
+  display: block;
   transition: opacity 0.5s linear;
 `;
 
@@ -140,6 +145,14 @@ export default ({
   onKeyPress,
   selfComments
 }) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   return (
     <Post>
       <PostHeader>
@@ -153,17 +166,17 @@ export default ({
           <Location>{location}</Location>
         </UserColumn>
       </PostHeader>
-      <Files>
-        {files &&
-          files.map((file, index) => (
+      <Slider {...settings}>
+      {files &&
+        files.map((file, index) => (
             <File
               key={file.id}
               id={file.id}
               src={file.url}
               showing={index === currentItem}
             />
-          ))}
-      </Files>
+        ))}
+      </Slider>
       <Meta>
         <Buttons>
           <Button onClick={toggleLike}>
