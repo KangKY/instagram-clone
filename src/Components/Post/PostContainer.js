@@ -148,6 +148,10 @@ const PostContainer = ({
       setRecommentId(id);
     }
 
+    const onCommentClick = () => {
+      textAreaRef.current.focus();
+    };
+
     return (
       <PostDetailPresenter
         id={id}
@@ -165,6 +169,7 @@ const PostContainer = ({
         onKeyPress={onKeyPress}
         selfComments={selfComments}
         onReplyClick={onReplyClick}
+        onCommentClick={onCommentClick}
         textAreaRef={textAreaRef}
       />
     );

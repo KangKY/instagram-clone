@@ -26,9 +26,12 @@ const ArticleHeader = styled.div`
 `;
 
 const HeaderColumn = styled.div`
+   
     &:first-child {
       margin-right: auto;
-     flex:0 0 196px;
+      flex:0 0 196px;
+    
+
      div {
        margin : 0 auto;
      }
@@ -63,6 +66,9 @@ const InfoTitle = styled.aside`
   font-weight: 600;
   padding: 10px;
   text-align: center;
+  @media (max-width:435px){
+    flex:0 0 110px;
+  }
 `;
 
 const InfoInput = styled(Input)`

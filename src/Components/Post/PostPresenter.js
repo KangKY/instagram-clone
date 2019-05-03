@@ -140,7 +140,6 @@ export default ({
   onKeyPress,
   selfComments
 }) => {
-  console.log(selfComments);
   return (
     <Post>
       <PostHeader>

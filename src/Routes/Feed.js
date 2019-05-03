@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-// import { Helmet } from "rl-react-helmet";
+import { Helmet } from "rl-react-helmet";
 import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
 import Loader from "../Components/Loader";
@@ -54,6 +54,9 @@ export default () => {
   console.log(data);
   return (
     <Wrapper>
+      <Helmet>
+        <title>Feed | Prismagram</title>
+      </Helmet>
       {loading && <Loader />}
       {!loading &&
         data.seeFeed &&

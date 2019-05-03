@@ -16,6 +16,7 @@ const CommentList = styled.li`
   display: flex;
   span {
     margin-right: 5px;
+    line-height: 1.3;
   }
 `;
 
@@ -74,7 +75,6 @@ export default ({
   detail
 }) => {
   if (!detail) {
-    console.log(comment);
     return (
       <CommentList key={comment.id}>
         <CommentWrap>
@@ -104,8 +104,9 @@ export default ({
               <UserWrap>
                 <Link to={`/${comment.user.username}`}>
                   <BoldText text={comment.user.username} />
+                  <span>{comment.text}</span>
                 </Link>
-                <span>{comment.text}</span>
+                
               </UserWrap>
               <ReplyDiv>
                 <MetaSpan>{moment(comment.createdAt).fromNow()}</MetaSpan>

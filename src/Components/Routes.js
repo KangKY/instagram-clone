@@ -27,6 +27,7 @@ const LoggedInRoutes = () => (
 const LoggedOutRoutes = () => (
     <Switch>
         <Route exact path="/" component={Auth} />
+        <Redirect from="*" to="/" />
     </Switch>
 );
 

@@ -9,6 +9,10 @@ const Container = styled.ul`
     color: ${props => props.theme.blackColor}
   }
   flex-grow: 1;
+  
+  @media (max-width:435px){
+    display: none;
+  }
 `;
 
 const List = styled.li`

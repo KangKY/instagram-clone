@@ -66,6 +66,22 @@ const File = styled.img`
   user-select: none;
   opacity: ${props => (props.showing ? 1 : 0)};
   transition: opacity 0.5s linear;
+  @media (max-width:768px) {
+    display:none;
+  }
+`;
+
+const MobileFile = styled.img`
+  max-width: 100%;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  user-select: none;
+  opacity: ${props => (props.showing ? 1 : 0)};
+  transition: opacity 0.5s linear;
+  @media (min-width:768px) {
+    display:none;
+  }
 `;
 
 const Button = styled.span`
@@ -145,6 +161,7 @@ export default ({
   onKeyPress,
   selfComments,
   onReplyClick,
+  onCommentClick,
   textAreaRef
 }) => {
   return (
@@ -173,12 +190,23 @@ export default ({
             <Timestamp>{moment(createdAt).fromNow()}</Timestamp>
           </UserColumn>
         </PostHeader>
+        <Files>
+          {files &&
+            files.map((file, index) => (
+              <MobileFile
+                key={file.id}
+                id={file.id}
+                src={file.url}
+                showing={index === currentItem}
+              />
+            ))}
+        </Files>
         <Meta>
           <Buttons>
             <Button onClick={toggleLike}>
               {isLiked ? <HeartFull /> : <HeartEmpty />}
             </Button>
-            <Button>
+            <Button onClick={onCommentClick}>
               <CommentEmpty />
             </Button>
           </Buttons>
