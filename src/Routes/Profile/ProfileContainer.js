@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { GET_USER, LOG_OUT } from "./ProfileQueries";
 import ProfilePresenter from "./ProfilePresenter";
 import { useQuery, useMutation } from "react-apollo-hooks";
+import { ME } from "../../SharedQueries";
 
 const ProfileContainer = ({ match: { params } }) => {
   const username = params.username;
@@ -13,7 +14,7 @@ const ProfileContainer = ({ match: { params } }) => {
   });
 
   const logOut = useMutation(LOG_OUT);
-  return <ProfilePresenter loading={loading} logOut={logOut} data={data} />;
+  return <ProfilePresenter loading={loading} logOut={logOut} data={data}/>;
 };
 
 export default withRouter(ProfileContainer);

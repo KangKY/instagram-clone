@@ -15,6 +15,10 @@
   color:black;
 }
 
+.slick-list, .slick-slide div, .slick-track {
+  height:100%;
+}
+
 /* .container {
   margin: 0 auto;
   color: #333;

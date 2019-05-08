@@ -21,6 +21,7 @@ const Overlay = styled.div`
 const Container = styled(Link)`
   background-image: url(${props => props.bg});
   background-size: cover;
+  background-position: center;
   cursor: pointer;
   &:hover {
     ${Overlay} {

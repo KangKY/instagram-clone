@@ -8,6 +8,7 @@ import moment from 'moment';
 import { HeartFull, HeartEmpty, CommentEmpty } from "../Icons";
 import TextareaAutosize from "react-autosize-textarea";
 import Slider from "react-slick";
+import "./carousel.css";
 
 const Post = styled.div`
   ${props => props.theme.whiteBox};
@@ -33,7 +34,8 @@ const PostHeader = styled.header`
 `;
 
 const PostWrap = styled.div`
-   width: 100%;
+   min-width:40%;
+   display:inline-block;
 `;
 
 
@@ -59,7 +61,8 @@ const Files = styled.div`
 
 const File = styled.img`
   max-width: 100%;
-  position: absolute;
+  margin: auto;
+  display:block;
   top: 0;
   height: 100%;
   width: 100%;
@@ -74,6 +77,8 @@ const File = styled.img`
 
 const MobileFile = styled.img`
   max-width: 100%;
+  margin: auto;
+  display:block;
   height: 100%;
   width: 100%;
   object-fit: cover;
@@ -146,6 +151,10 @@ const Caption = styled.div`
   border-bottom: ${props => props.theme.boxBorder};
 `;
 
+const DetailSlider = styled(Slider)`
+  display:inline-block!important;
+  min-width:60%;
+`
 
 export default ({
   user: { avatar, username },
@@ -174,7 +183,7 @@ export default ({
 
   return (
     <Post>
-      <Files>
+      <DetailSlider {...settings}>
         {files &&
           files.map((file, index) => (
             <File
@@ -183,7 +192,7 @@ export default ({
               src={file.url}
             />
           ))}
-      </Files>
+      </DetailSlider>
       <PostWrap>
         <PostHeader>
           <Link to={`/${username}`}>
@@ -197,7 +206,7 @@ export default ({
             <Timestamp>{moment(createdAt).fromNow()}</Timestamp>
           </UserColumn>
         </PostHeader>
-        <Files>
+        {/* <DetailSlider >
           {files &&
             files.map((file, index) => (
               <MobileFile
@@ -206,7 +215,7 @@ export default ({
                 src={file.url}
               />
             ))}
-        </Files>
+        </DetailSlider> */}
         <Meta>
           <Buttons>
             <Button onClick={toggleLike}>

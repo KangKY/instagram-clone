@@ -9,8 +9,10 @@ import SquarePost from "../../Components/SquarePost";
 import Button from "../../Components/Button";
 import { Edit } from "../../Components/Icons";
 import {Link} from "react-router-dom";
+
+
 const Wrapper = styled.div`
-  min-height: 100vh;
+  min-height: 70vh;
 `;
 
 const Header = styled.header`
@@ -133,13 +135,13 @@ export default ({ loading, data, logOut }) => {
           <HeaderColumn grow={2}>
             <UsernameRow>
               <Username>{username}</Username>{" "}
-              <Link to="/account/edit"><Edit /></Link>
+              {itsMe? (<Link to="/account/edit"><Edit /></Link>) : <></>}
             </UsernameRow>
             <ButtonWrap>
                 {itsMe ? (
                   <Button onClick={logOut} text="Log Out" />
                 ) : (
-                  <FollowButton isFollowing={isFollowing} id={id} />
+                  <FollowButton isFollowing={isFollowing} id={id} followersCount={followersCount}/>
                 )}
               </ButtonWrap>
             <Counts>

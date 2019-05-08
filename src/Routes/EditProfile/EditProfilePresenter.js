@@ -126,9 +126,11 @@ export default ({
           <ArticleHeader>
             <HeaderColumn>
               <Avatar url={avatar} size={"md"} />
+              <input type="file" />
             </HeaderColumn>
             <HeaderColumn>
               {username}
+              
             </HeaderColumn>
             
           </ArticleHeader>
