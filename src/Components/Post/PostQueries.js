@@ -26,8 +26,8 @@ export const ADD_COMMENT = gql`
 `;
 
 export const ADD_REPLY = gql`
-  mutation addReply($postId: String!, $text:String!, $commentId:String!) {
-    addReply(postId: $postId, text: $text, commentId: $commentId) {
+  mutation addReply($postId: String!, $text:String!, $commentId:String!, $tag:String) {
+    addReply(postId: $postId, text: $text, commentId: $commentId, tag:$tag) {
       id
       text
       createdAt

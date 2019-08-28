@@ -4,7 +4,7 @@ import { useMutation } from "react-apollo-hooks";
 import { FOLLOW, UNFOLLOW } from "./FollowButtonQueries";
 import FollowButtonPresenter from "./FollowButtonPresenter";
 
-const FollowButtonContainer = ({ id, isFollowing }) => {
+const FollowButtonContainer = ({ id, isFollowing, followersCount }) => {
   const options = {
     variables: {
       id
@@ -25,7 +25,7 @@ const FollowButtonContainer = ({ id, isFollowing }) => {
     }
   };
 
-  return <FollowButtonPresenter isFollowing={isFollowingState} onClick={onClick} />;
+  return <FollowButtonPresenter isFollowing={isFollowingState} onClick={onClick}/>;
 
 };
 

@@ -237,8 +237,6 @@ export default ({
                 <Comment key={comment.id} detail={true} comment={comment} onReplyClick={() => {
                   onReplyClick(comment.user.username, comment.id);
                 }}/>
-
-
               )
             }
             {selfComments &&

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import useInput from "../Hooks/useInput";
 import Input from "../Components/Input";
-import { Pet, Compass, User, Map } from "./Icons";
+import { Pet, Compass, User, Map, Upload } from "./Icons";
 import { ME } from "../SharedQueries";
 import { useQuery } from "react-apollo-hooks";
 
@@ -151,9 +151,9 @@ export default withRouter(({ history }) => {
           <HeaderLink to="/location">
             <Map />
           </HeaderLink>
-          {/* <HeaderLink to="/#">
-            <HeartEmpty />
-          </HeaderLink> */}
+          {/* <HeaderLink to="/upload">
+            <Upload />
+          </HeaderLink>  */}
           {!data.me ? (
             <HeaderLink to="/#">
               <User />

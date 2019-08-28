@@ -9,7 +9,7 @@ import Profile from "../Routes/Profile";
 import Location from "../Routes/Location";
 import PostDetail from "../Routes/PostDetail";
 import EditProfile from "../Routes/EditProfile";
-
+import UploadPost from "../Routes/UploadPost";
 
 const LoggedInRoutes = () => (
     <Switch>
@@ -17,6 +17,7 @@ const LoggedInRoutes = () => (
         <Route path="/explore" component={Explore} />
         <Route path="/search" component={Search} />
         <Route path="/location" component={Location} />
+        <Route path="/upload" component={UploadPost} />
         <Route path="/p/:post" component={PostDetail} />
         <Route path="/account/edit" component={EditProfile} />
         <Route path="/:username" component={Profile} />

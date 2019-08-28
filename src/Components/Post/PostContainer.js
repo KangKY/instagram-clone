@@ -77,8 +77,8 @@ const PostContainer = ({
     if (which === 13) {
       event.preventDefault();
       try {
-        var myRe = /@\w+/g;
-        var myArray = myRe.exec(comment.value);
+        const myRe = /@\w+/g;
+        const myArray = myRe.exec(comment.value);
         console.log(myArray);
         if(myArray === null) {
           comment.setValue("");

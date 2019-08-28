@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { GET_USER, LOG_OUT } from "./ProfileQueries";
 import ProfilePresenter from "./ProfilePresenter";
 import { useQuery, useMutation } from "react-apollo-hooks";
-import { ME } from "../../SharedQueries";
+
 
 const ProfileContainer = ({ match: { params } }) => {
   const username = params.username;

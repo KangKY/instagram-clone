@@ -10,6 +10,7 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import Routes from "./Routes";
 import Footer from "./Footer";
 import Header from "./Header";
+import FloatingButton from "./FloatingButton";
 
 const QUERY = gql`
   {
@@ -55,6 +56,7 @@ export default () => {
             </ContentWrapper>
             <Footer />
             <ToastContainer position={toast.POSITION.TOP_RIGHT} />
+            <FloatingButton />
           </Wrapper>
         </Router>
       </>

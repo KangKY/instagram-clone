@@ -51,7 +51,7 @@ const CommentDiv = styled.div`
 `;
 
 const UserWrap = styled.div`
-  display: flex;
+  display: inline-block;
 `;
 
 const ReplyDiv = styled.div`
@@ -61,6 +61,11 @@ const ReplyDiv = styled.div`
 `;
 
 const MetaSpan = styled.span``;
+
+const UserLink = styled(Link)`
+    color: #3897f0!important;
+`;
+
 
 export default ({
   comment,
@@ -72,8 +77,10 @@ export default ({
   toggleLike,
   likeCount,
   moment,
-  detail
+  detail,
+  userLink
 }) => {
+  console.log(userLink);
   if (!detail) {
     return (
       <CommentList key={comment.id}>
@@ -104,9 +111,16 @@ export default ({
               <UserWrap>
                 <Link to={`/${comment.user.username}`}>
                   <BoldText text={comment.user.username} />
-                  <span>{comment.text}</span>
+                 
                 </Link>
-                
+                  {userLink ? (
+                    <>
+                    <UserLink to={`/${userLink}`}>@{userLink}</UserLink> 
+                    <span>{comment.text}</span>
+                    </>
+                  ) : (
+                    <span>{comment.text}</span>
+                  )}
               </UserWrap>
               <ReplyDiv>
                 <MetaSpan>{moment(comment.createdAt).fromNow()}</MetaSpan>

@@ -9,6 +9,7 @@ const CommentContainer = ({ comment, onReplyClick, detail }) => {
   const [collapse, setCollapse] = useState(true);
   const [isLiked, setIsLiked] = useState(comment.isLiked);
   const [likeCount, setLikeCount] = useState(0);
+  const [userLink, setUserLink] = useState();
 
   const toggleCommentLikeMutation = useMutation(TOGGLE_COMMENTLIKE, {
     variables: {
@@ -21,6 +22,19 @@ const CommentContainer = ({ comment, onReplyClick, detail }) => {
 
     if(comment.likeCount && comment.likeCount > 0)
       setLikeCount(comment.likeCount);
+
+    if(detail) {
+      const myRe = /@\w+/g;
+      const myArray = myRe.exec(comment.text);
+      if(myArray !== null) {
+        
+        comment.text = comment.text.replace(myArray[0],'');
+        console.log(comment.text);
+        setUserLink(myArray[0].replace('@',''));
+      }
+      
+    }
+    
 
   }, []);
 
@@ -64,6 +78,7 @@ const CommentContainer = ({ comment, onReplyClick, detail }) => {
         likeCount={likeCount}
         moment={moment}
         detail={detail}
+        userLink={userLink}
       />
     );
   }
